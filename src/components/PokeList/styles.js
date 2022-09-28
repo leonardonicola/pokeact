@@ -1,11 +1,11 @@
 import styled from "styled-components"
 export const WrapperList = styled.div`
   display: grid;
-  margin: 150px 50px;
+  margin: 70px;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   justify-items: center;
   width: 70%;
-  gap: 60px;
+  gap: 80px;
 `
 
 export const Card = styled.div`

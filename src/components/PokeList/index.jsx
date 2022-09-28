@@ -1,5 +1,6 @@
 import { Card, Image, Infos, WrapperList, Wrapper } from "./styles"
-import { Text, Types } from "../../styles"
+import { Text } from "../../styles"
+import { Type } from "../Type"
 import axios from "axios"
 import { Button } from "../Button"
 import React, { useState, useEffect } from "react"
@@ -12,10 +13,10 @@ export const PokeList = React.memo(({ handleCardClick }) => {
   const handleButtonClick = (ev) => {
     switch (ev.target.innerText) {
       case "NEXT":
-        setOffset((prev) => prev + 10)
+        setOffset((prev) => prev + 6)
         break
       case "PREV":
-        setOffset((prev) => prev - 10)
+        setOffset((prev) => prev - 6)
         break
       default:
         break
@@ -53,20 +54,12 @@ export const PokeList = React.memo(({ handleCardClick }) => {
               <Infos>
                 <Text paragraph>Nº{poke.data.id}</Text>
                 <Text heading>{toUpperCase(poke.data.name)}</Text>
-                {(!!poke.data.types[1] && (
-                  <Types>
-                    <Text type={poke.data.types[0].type.name}>
-                      {poke.data.types[0].type.name}
-                    </Text>
-                    <Text type={poke.data.types[1].type.name}>
-                      {poke.data.types[1].type.name}
-                    </Text>
-                  </Types>
-                )) || (
-                  <Text type={poke.data.types[0].type.name}>
-                    {poke.data.types[0].type.name}
-                  </Text>
-                )}
+                <Type
+                  type1={poke.data.types[0].type.name.toUpperCase()}
+                  {...(poke.data.types[1]
+                    ? { type2: poke.data.types[1].type.name.toUpperCase() }
+                    : "")}
+                />
               </Infos>
             </Card>
           ))}
