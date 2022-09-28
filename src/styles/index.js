@@ -12,85 +12,89 @@ export const Text = styled.h1`
       css`
         font-size: 1.5em;
       `) ||
+      (props.headingsec &&
+      css`
+        font-size: 1.2em;
+      `) ||
     (props.type &&
       css`
         font-size: 1em;
-
+        color: #252525;
         font-weight: bold;
         padding: 10px;
         border-radius: 10px;
       `)}
 
   ${({ type }) =>
-    (type === "grass" &&
+    (type === "GRASS" &&
       css`
         background-color: #a8ef87;
       `) ||
-    (type === "poison" &&
+    (type === "POISON" &&
       css`
         background-color: #a33ea1;
       `) ||
-    (type === "fire" &&
+    (type === "FIRE" &&
       css`
         background-color: #ee8130;
       `) ||
-    (type === "water" &&
+    (type === "WATER" &&
       css`
         background-color: #92adff;
       `) ||
-    (type === "flying" &&
+    (type === "FLYING" &&
       css`
         background-color: #a98ff3;
       `) ||
-    (type === "steel" &&
+    (type === "STEEL" &&
       css`
         background-color: #b7b7ce;
       `) ||
-    (type === "ground" &&
+    (type === "GROUND" &&
       css`
         background-color: #e2bf65;
       `) ||
-    (type === "normal" &&
+    (type === "NORMAL" &&
       css`
         background-color: #a8a77a;
       `) ||
-    (type === "psychic" &&
+    (type === "PSYCHIC" &&
       css`
         background-color: #f95587;
       `) ||
-    (type === "dark" &&
+    (type === "DARK" &&
       css`
         background-color: #705746;
       `) ||
-    (type === "fairy" &&
+    (type === "FAIRY" &&
       css`
         background-color: #d685ad;
       `) ||
-    (type === "dragon" &&
+    (type === "DRAGON" &&
       css`
         background-color: #6f35fc;
       `) ||
-    (type === "ghost" &&
+    (type === "GHOST" &&
       css`
         background-color: #735797;
       `) ||
-    (type === "ice" &&
+    (type === "ICE" &&
       css`
         background-color: #96d9d6;
       `) ||
-    (type === "rock" &&
+    (type === "ROCK" &&
       css`
         background-color: #b6a136;
       `) ||
-    (type === "bug" &&
+    (type === "BUG" &&
       css`
         background-color: #a6b91a;
       `) ||
-    (type === "fighting" &&
+    (type === "FIGHTHING" &&
       css`
         background-color: #c22e28;
       `) ||
-    (type === "electric" &&
+    (type === "ELECTRIC" &&
       css`
         background-color: #f7d02c;
       `)}
@@ -98,6 +102,7 @@ export const Text = styled.h1`
 
 export const Types = styled.div`
   display: flex;
-  width: 60%;
-  justify-content: space-between;
+  gap: 0 20px;
+  width: 80%;
+  justify-content: center;
 `
