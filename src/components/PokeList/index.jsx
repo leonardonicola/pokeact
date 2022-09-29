@@ -1,32 +1,35 @@
-import { Card, Image, Infos, WrapperList, Wrapper } from "./styles"
-import { Text } from "../../styles"
-import { Type } from "../Type"
+import { Wrapper } from "./styles"
+import { PokeCard } from "../PokeCard"
 import axios from "axios"
 import { Button } from "../Button"
-import React, { useState, useEffect } from "react"
-import { toUpperCase } from "../../utils/toUpper"
+import React, { useState, useEffect, useContext, useCallback } from "react"
 
-export const PokeList = React.memo(({ handleCardClick }) => {
-  const [offset, setOffset] = useState(1)
+import { Context } from "../../contexts/AppContext"
+
+export const PokeList = () => {
   const [pokeList, setPokeList] = useState([])
+  const context = useContext(Context)
 
-  const handleButtonClick = (ev) => {
-    switch (ev.target.innerText) {
-      case "NEXT":
-        setOffset((prev) => prev + 6)
-        break
-      case "PREV":
-        setOffset((prev) => prev - 6)
-        break
-      default:
-        break
-    }
-  }
+  const handleButtonClick = useCallback(
+    (ev) => {
+      switch (ev.target.innerText) {
+        case "NEXT":
+          context.dispatch({ type: "INCREMENT_OFFSET" })
+          break
+        case "PREV":
+          context.dispatch({ type: "DECREMENT_OFFSET" })
+          break
+        default:
+          break
+      }
+    },
+    [context.dispatch]
+  )
 
   useEffect(() => {
     const loadData = () => {
       let endpoints = []
-      for (let i = offset; i < offset + 6; i++) {
+      for (let i = context.state.offset; i < context.state.offset + 6; i++) {
         endpoints.push(`https://pokeapi.co/api/v2/pokemon/${i}`)
       }
       axios
@@ -36,35 +39,12 @@ export const PokeList = React.memo(({ handleCardClick }) => {
         })
     }
     loadData()
-  }, [offset])
+  }, [context.state.offset])
 
   return (
     <Wrapper>
-      <WrapperList>
-        {pokeList.length > 0 &&
-          pokeList.map((poke) => (
-            <Card
-              key={poke.data.id}
-              onClick={() => handleCardClick(poke.data.id)}
-            >
-              <Image
-                src={poke.data.sprites.front_default}
-                alt={poke.data.name}
-              />
-              <Infos>
-                <Text paragraph>Nº{poke.data.id}</Text>
-                <Text heading>{toUpperCase(poke.data.name)}</Text>
-                <Type
-                  type1={poke.data.types[0].type.name.toUpperCase()}
-                  {...(poke.data.types[1]
-                    ? { type2: poke.data.types[1].type.name.toUpperCase() }
-                    : "")}
-                />
-              </Infos>
-            </Card>
-          ))}
-      </WrapperList>
-      <Button isDisabled={offset} handleClick={handleButtonClick} />
+      <PokeCard pokeList={pokeList} dispatch={context.dispatch} />
+      <Button handleClick={handleButtonClick} />
     </Wrapper>
   )
-})
+}

@@ -1,36 +1,30 @@
 import axios from "axios"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Type } from "../Type"
-import {
-  Wrapper,
-  Image,
-  WrapperInfos,
-  Info,
-  BasicInfos,
-  WrapperStats,
-  Stat,
-  SingleStat,
-} from "./styles"
+import { Wrapper, Image, WrapperInfos, Info, BasicInfos } from "./styles"
+import { Stats } from "../Stats"
 import { Text } from "../../styles"
 import { toUpperCase } from "../../utils/toUpper"
+import { Context } from "../../contexts/AppContext"
 
-export const PokeDetails = React.memo(({ pokeId }) => {
+export const PokeDetails = () => {
+  const context = useContext(Context)
   const [poke, setPoke] = useState({})
 
   useEffect(() => {
     const loadData = () => {
       axios
-        .get(`https://pokeapi.co/api/v2/pokemon/${pokeId}`)
+        .get(`https://pokeapi.co/api/v2/pokemon/${context.state.id}`)
         .then((res) => setPoke(res.data))
     }
     loadData()
-  }, [pokeId])
+  }, [context.state.id])
 
   return (
     <Wrapper>
       {poke.name && (
         <>
-          <Image src={poke.sprites.front_default} />
+          <Image src={poke.sprites.front_default} alt={poke.name} />
           <Text paragraph>#{poke.id}</Text>
           <Text heading>{toUpperCase(poke.name)}</Text>
           <Type
@@ -43,8 +37,8 @@ export const PokeDetails = React.memo(({ pokeId }) => {
           <WrapperInfos>
             <Info ability>{toUpperCase(poke.abilities[0].ability.name)}</Info>
             {poke.abilities[1] && (
-                <Info ability>{toUpperCase(poke.abilities[1].ability.name)}</Info>
-            ) }
+              <Info ability>{toUpperCase(poke.abilities[1].ability.name)}</Info>
+            )}
           </WrapperInfos>
           <WrapperInfos>
             <BasicInfos>
@@ -60,30 +54,9 @@ export const PokeDetails = React.memo(({ pokeId }) => {
               <Info>{poke.base_experience}</Info>
             </BasicInfos>
           </WrapperInfos>
-          <WrapperStats>
-            <Stat>
-              <SingleStat stat="hp">HP</SingleStat>
-              <SingleStat num>{poke.stats[0].base_stat}</SingleStat>
-            </Stat>
-            <Stat>
-              <SingleStat stat="atk">ATK</SingleStat>
-              <SingleStat num>{poke.stats[1].base_stat}</SingleStat>
-            </Stat>
-            <Stat>
-              <SingleStat stat="def">DEF</SingleStat>
-              <SingleStat num>{poke.stats[2].base_stat}</SingleStat>
-            </Stat>
-            <Stat>
-              <SingleStat stat="spc">SPC</SingleStat>
-              <SingleStat num>{poke.stats[3].base_stat}</SingleStat>
-            </Stat>
-            <Stat>
-              <SingleStat stat="spd">SPD</SingleStat>
-              <SingleStat num>{poke.stats[5].base_stat}</SingleStat>
-            </Stat>
-          </WrapperStats>
+          <Stats stats={poke.stats} />
         </>
       )}
     </Wrapper>
   )
-})
+}

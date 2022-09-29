@@ -8,9 +8,7 @@ export const Type = ({ type1, type2 }) => {
           <Text type={type1}>{type1}</Text>
           <Text type={type2}>{type2}</Text>
         </Types>
-      )) || (
-        <Text type={type1}>{type1}</Text>
-      )}
+      )) || <Text type={type1}>{type1}</Text>}
     </>
   )
 }
