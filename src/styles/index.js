@@ -12,7 +12,7 @@ export const Text = styled.h1`
       css`
         font-size: 1.5em;
       `) ||
-      (props.headingsec &&
+    (props.headingsec &&
       css`
         font-size: 1.2em;
       `) ||
